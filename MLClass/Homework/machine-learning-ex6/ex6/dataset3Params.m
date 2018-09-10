@@ -23,10 +23,30 @@ sigma = 0.3;
 %        mean(double(predictions ~= yval))
 %
 
+cs = [0.01, 0.03, 0.1, 0.3, 1, 3, 10, 30];
+C = 0.01;
+sigam = 0.01;
+model = svmTrain(X, y, C, @(x1,x2) gaussianKernel(x1, x2, sigma));
+predictions = svmPredict(model, Xval);
+meanMin = mean(double(predictions ~= yval));
+C_optimal = C;
+sigma_optimal = sigma;
 
-
-
-
+for i = 1:length(cs)
+    for j = 1:length(cs)
+        C = cs(i);
+        sigma = cs(j);
+        model= svmTrain(X, y, C, @(x1, x2) gaussianKernel(x1, x2, sigma)); 
+        predictions = svmPredict(model,Xval);
+        if(meanMin >= mean(double(predictions ~= yval)))
+            meanMin = mean(double(predictions ~= yval));
+            C_optimal = C;
+            sigma_optimal = sigma;
+        end
+    end
+end
+C = C_optimal;
+sigma = sigma_optimal;
 
 
 % =========================================================================
