@@ -28,7 +28,7 @@ end
 
 h = sum(X .* Theta', 2);
  
-J = sum((h - y) .^ 2, 1) / m / 2 + sum(theta1 .^ 2) * lambda / 2 / m;
+J = sum((h - y) .^ 2, 1) / m / 2 + sum(theta1 .^ 2, 1) * lambda / 2 / m;
 
 %J = 1 / (2 * m) * sum((X * theta - y) .^ 2) + lambda / (2 * m) * sum(theta .^ 2);
 
